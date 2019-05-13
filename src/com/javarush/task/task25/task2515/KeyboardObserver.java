@@ -1,5 +1,6 @@
 package com.javarush.task.task25.task2515;
 //some comment for git
+//some comment for git now
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
