@@ -1,2 +1,11 @@
+<<<<<<< HEAD
 123
 hello new branch
+=======
+sdafdsaf
+xdvc
+sdfdasf
+324rfds
+sdfdasf
+branch master
+>>>>>>> master
