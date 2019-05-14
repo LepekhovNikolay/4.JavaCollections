@@ -40,7 +40,6 @@ public class Solution {
         }
     }
 
-    HashSet
     public void printString() {
         if (value2 != null) {
             logger.trace("value2.length print");
