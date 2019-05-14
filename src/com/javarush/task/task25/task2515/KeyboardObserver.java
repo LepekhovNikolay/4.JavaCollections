@@ -16,6 +16,7 @@ public class KeyboardObserver extends Thread {
 
     private JFrame frame;
 //some comment from Idea
+    //second comment from bush
     @Override
     public void run() {
         frame = new JFrame("KeyPress Tester");
