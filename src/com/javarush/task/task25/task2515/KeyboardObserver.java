@@ -15,7 +15,7 @@ public class KeyboardObserver extends Thread {
     private Queue<KeyEvent> keyEvents = new ArrayBlockingQueue<KeyEvent>(100);
 
     private JFrame frame;
-
+//some comment from Idea
     @Override
     public void run() {
         frame = new JFrame("KeyPress Tester");
