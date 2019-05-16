@@ -1,5 +1,6 @@
 package com.javarush.task.task36.task3609;
 
+
 public class CarModel {
     private String brand;
     private String model;
