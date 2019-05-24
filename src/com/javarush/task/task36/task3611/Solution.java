@@ -17,7 +17,8 @@ public class Solution {
         Set<Integer> allFriendsAndPotentialFriends = solution.getAllFriendsAndPotentialFriends(4, 2);
         System.out.println(allFriendsAndPotentialFriends);                              // Expected: [0, 1, 2, 3, 5, 7]
         Set<Integer> potentialFriends = solution.removeFriendsFromSet(allFriendsAndPotentialFriends, 4);
-        System.out.println(potentialFriends);                                           // Expected: [2, 5, 7]
+        System.out.println(potentialFriends);
+        // Expected: [2, 5, 7]
     }
 
     public Set<Integer> getAllFriendsAndPotentialFriends(int index, int deep) {
