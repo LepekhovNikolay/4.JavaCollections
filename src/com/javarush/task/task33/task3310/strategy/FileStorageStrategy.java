@@ -1,8 +1,9 @@
 package com.javarush.task.task33.task3310.strategy;
 
-public class FileStorageStrategy implements StorageStrategy{
+public class FileStorageStrategy implements StorageStrategy {
+
     private static final int DEFAULT_INITIAL_CAPACITY = 16;
-    private static final long DEFAULT_BUCKET_SIZE_LIMIT = 10_000;
+    static final long DEFAULT_BUCKET_SIZE_LIMIT = 10000;
     private FileBucket[] table = new FileBucket[DEFAULT_INITIAL_CAPACITY];
     private int size;
     private long bucketSizeLimit = DEFAULT_BUCKET_SIZE_LIMIT;
@@ -13,12 +14,14 @@ public class FileStorageStrategy implements StorageStrategy{
             table[i] = new FileBucket();
     }
 
-    public int hash(Long k) {
-        return k.hashCode();
+    private int hash(Long k) {
+        long h = k;
+        h ^= (h >>> 20) ^ (h >>> 12);
+        return (int)(h ^ (h >>> 7) ^ (h >>> 4));
     }
 
-    public int indexFor(int hash, int length) {
-        return hash & length -1;
+    private int indexFor(int hash, int length) {
+        return hash % (length - 1);
     }
 
     public Entry getEntry(Long key) {
@@ -80,7 +83,7 @@ public class FileStorageStrategy implements StorageStrategy{
             if (fileBucket == null) continue;
             Entry entry = fileBucket.getEntry();
             while (entry != null) {
-                if (entry.getValue().equals(value)) return true;
+                if (entry.value.equals(value)) return true;
                 entry = entry.next;
             }
         }
@@ -89,7 +92,8 @@ public class FileStorageStrategy implements StorageStrategy{
 
     @Override
     public void put(Long key, String value) {
-        int index = indexFor(hash(key), table.length);
+        int hash = hash(key);
+        int index = indexFor(hash, table.length);
         if (table[index] != null) {
             Entry entry = table[index].getEntry();
             while (entry != null) {
@@ -97,10 +101,12 @@ public class FileStorageStrategy implements StorageStrategy{
                     entry.value = value;
                     return;
                 }
-                addEntry(hash(key), key, value, index);
+                entry = entry.next;
             }
-        } else {
-            createEntry(hash(key), key, value, index);
+            addEntry(hash, key, value, index);
+        }
+        else {
+            createEntry(hash, key, value, index);
         }
     }
 
@@ -122,5 +128,12 @@ public class FileStorageStrategy implements StorageStrategy{
         Entry entry = getEntry(key);
         if (entry != null) return entry.value;
         return null;
+    }
+
+    public long getBucketSizeLimit() {
+        return bucketSizeLimit;
+    }
+    public void setBucketSizeLimit(long bucketSizeLimit) {
+        this.bucketSizeLimit = bucketSizeLimit;
     }
 }
