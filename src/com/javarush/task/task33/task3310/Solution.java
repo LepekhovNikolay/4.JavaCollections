@@ -1,5 +1,6 @@
 package com.javarush.task.task33.task3310;
 
+import com.javarush.task.task33.task3310.strategy.FileStorageStrategy;
 import com.javarush.task.task33.task3310.strategy.HashMapStorageStrategy;
 import com.javarush.task.task33.task3310.strategy.OurHashMapStorageStrategy;
 import com.javarush.task.task33.task3310.strategy.StorageStrategy;
@@ -12,9 +13,9 @@ import java.util.Set;
 public class Solution {
     public static void main(String[] args) {
         Long SIZE_OF_TEST = 10000L;
-        StorageStrategy testStrategy = new HashMapStorageStrategy();
-        testStrategy(testStrategy, SIZE_OF_TEST);
+        testStrategy(new HashMapStorageStrategy(), SIZE_OF_TEST);
         testStrategy(new OurHashMapStorageStrategy(), SIZE_OF_TEST);
+        testStrategy(new FileStorageStrategy(), SIZE_OF_TEST);
 
     }
 

@@ -61,7 +61,7 @@ public class OurHashMapStorageStrategy implements StorageStrategy {
             return null;
         int hash = (key == null) ? 0 : hash(key);
         for (Entry e = table[indexFor(hash, table.length)]; e != null; e = e.next) {
-            if (e.hash == hash && e.key == key || key != null && key.equals(e.key))
+            if (e.hash == hash && e.key.equals(key) || key != null && key.equals(e.key))
                 return e;
         }
         return null;
