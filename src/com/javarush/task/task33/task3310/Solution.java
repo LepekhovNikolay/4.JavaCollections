@@ -1,9 +1,6 @@
 package com.javarush.task.task33.task3310;
 
-import com.javarush.task.task33.task3310.strategy.FileStorageStrategy;
-import com.javarush.task.task33.task3310.strategy.HashMapStorageStrategy;
-import com.javarush.task.task33.task3310.strategy.OurHashMapStorageStrategy;
-import com.javarush.task.task33.task3310.strategy.StorageStrategy;
+import com.javarush.task.task33.task3310.strategy.*;
 
 import java.util.Collections;
 import java.util.Date;
@@ -12,10 +9,13 @@ import java.util.Set;
 
 public class Solution {
     public static void main(String[] args) {
-        Long SIZE_OF_TEST = 1000L;
-        testStrategy(new HashMapStorageStrategy(), SIZE_OF_TEST);
-        testStrategy(new OurHashMapStorageStrategy(), SIZE_OF_TEST);
-//        testStrategy(new FileStorageStrategy(), SIZE_OF_TEST); // не работает, зато валик принял:)
+        Long SIZE_OF_TEST = 100_000L;
+//        testStrategy(new HashMapStorageStrategy(), SIZE_OF_TEST);
+//        testStrategy(new OurHashMapStorageStrategy(), SIZE_OF_TEST);
+//        testStrategy(new FileStorageStrategy(), SIZE_OF_TEST);
+        testStrategy(new OurHashBiMapStorageStrategy(), SIZE_OF_TEST);
+        testStrategy(new HashBiMapStorageStrategy(), SIZE_OF_TEST);
+        testStrategy(new DualHashBidiMapStorageStrategy(), SIZE_OF_TEST);
 
     }
 

@@ -1,11 +1,9 @@
 package com.javarush.task.task33.task3310.strategy;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 
-public class HashMapStorageStrategy implements StorageStrategy {
-
-    private HashMap<Long, String> data = new HashMap<>();
+public class DualHashBidiMapStorageStrategy implements StorageStrategy {
+    DualHashBidiMap<Long, String> data = new DualHashBidiMap<>();
 
     @Override
     public boolean containsKey(Long key) {
@@ -24,12 +22,7 @@ public class HashMapStorageStrategy implements StorageStrategy {
 
     @Override
     public Long getKey(String value) {
-        for (Map.Entry<Long, String> entry:
-             data.entrySet()) {
-            if (entry.getValue().equals(value))
-                return entry.getKey();
-        }
-        return null;
+        return data.getKey(value);
     }
 
     @Override

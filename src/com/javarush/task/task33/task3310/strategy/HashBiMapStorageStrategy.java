@@ -1,11 +1,12 @@
 package com.javarush.task.task33.task3310.strategy;
 
-import java.util.HashMap;
-import java.util.Map;
 
-public class HashMapStorageStrategy implements StorageStrategy {
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 
-    private HashMap<Long, String> data = new HashMap<>();
+public class HashBiMapStorageStrategy implements StorageStrategy{
+
+    private HashBiMap<Long, String> data = HashBiMap.create();
 
     @Override
     public boolean containsKey(Long key) {
@@ -19,17 +20,12 @@ public class HashMapStorageStrategy implements StorageStrategy {
 
     @Override
     public void put(Long key, String value) {
-        data.put(key,value);
+        data.put(key, value);
     }
 
     @Override
     public Long getKey(String value) {
-        for (Map.Entry<Long, String> entry:
-             data.entrySet()) {
-            if (entry.getValue().equals(value))
-                return entry.getKey();
-        }
-        return null;
+        return data.inverse().get(value);
     }
 
     @Override
