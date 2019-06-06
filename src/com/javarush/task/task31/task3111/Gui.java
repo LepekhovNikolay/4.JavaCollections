@@ -99,16 +99,16 @@ public class Gui {
             System.out.println(variable.name());
             switch (variable){
                 case MAXSIZE:
-                    searchFileVisitor.setMaxSize(100);//todo потом поменять
+                    searchFileVisitor.setMaxSize(100);
                     break;
                 case MINSIZE:
-                    searchFileVisitor.setMinSize(0);//todo потом поменять
+                    searchFileVisitor.setMinSize(0);
                     break;
                 case PARTOFNAME:
-                    searchFileVisitor.setPartOfName(".txt");//todo потом поменять
+                    searchFileVisitor.setPartOfName(".txt");
                     break;
                 case PARTOFCONTENT:
-                    searchFileVisitor.setPartOfContent("132");//todo потом поменять
+                    searchFileVisitor.setPartOfContent("132");
                     break;
                 case DEFAULTS:
                     searchFileVisitor = new SearchFileVisitor();

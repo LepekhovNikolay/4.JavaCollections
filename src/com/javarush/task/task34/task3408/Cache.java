@@ -8,10 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Cache<K, V> {
-    private Map<K, V> cache = new WeakHashMap<>();   //TODO add your code here
+    private Map<K, V> cache = new WeakHashMap<>();
     private static final Logger logger = LoggerFactory.getLogger(Cache.class);
     public V getByKey(K key, Class<V> clazz) throws Exception {
-        //TODO add your code here
+
         if (!cache.containsKey(key))
             cache.put(key, clazz.getConstructor(key.getClass()).newInstance(key));
 
@@ -19,7 +19,7 @@ public class Cache<K, V> {
     }
 
     public boolean put(V obj) {
-        //TODO add your code here
+
         Method method = null;
         try {
             method = obj.getClass().getDeclaredMethod("getKey");

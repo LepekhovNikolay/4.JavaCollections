@@ -1,5 +1,8 @@
 package com.javarush.task.task39.task3913;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.nio.Buffer;
 import java.nio.file.Paths;
 import java.util.Date;
 
@@ -10,7 +13,8 @@ public class Solution {
 //        checkIPQuery(logParser);
 //        checkUserQuery(logParser);
 //        checkDateQuery(logParser);
-        checkEventQuery(logParser);
+//        checkEventQuery(logParser);
+        checkQLQuery(logParser);
     }
 
     private static void checkIPQuery(LogParser logParser) {
@@ -45,5 +49,19 @@ public class Solution {
 
     private static void checkEventQuery(LogParser logParser) {
         System.out.println("for task 2 succesful attemt is: " + logParser.getNumberOfSuccessfulAttemptToSolveTask(2, null, null));
+    }
+
+    private static void checkQLQuery(LogParser logParser) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            String query;
+            System.out.println("введите запрос:");
+            while (!(query = reader.readLine()).equals("exit")) {
+                System.out.println(logParser.execute(query));
+                System.out.println("введите запрос:");
+            }
+        } catch (Exception e) {
+            System.out.println("some Exception with writing query");
+            System.exit(-1);
+        }
     }
 }

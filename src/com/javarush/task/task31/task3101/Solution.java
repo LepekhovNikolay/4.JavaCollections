@@ -11,15 +11,11 @@ import java.util.List;
 */
 public class Solution {
     public static void main(String[] args) {
-        //todo delete after using start
-//        args[0] = "C:/1";//директория
-//        args[1] = "C:/2/resulFileAbsolutePath.txt";//файл, который будет содержать результат
-        //todo delete after using end
         File directory = new File(args[0]);
         File destination = new File(args[1]);
         List<File> filesFromDir = foundFiles(directory);
         List<File> filesLess50 =foundFilesLess50(filesFromDir);
-        Collections.sort(filesLess50, new FileNameComparator());//todo реализовать нормальный сортировщик
+        Collections.sort(filesLess50, new FileNameComparator());
         File newDestination = new File(destination.getParent() +"/allFilesContent.txt");
 //        if (!FileUtils.isExist(new File(destination.getParent() +"/allFilesContent.txt")))
             FileUtils.renameFile(destination, newDestination);

@@ -1,9 +1,6 @@
 package com.javarush.task.task39.task3913;
 
-import com.javarush.task.task39.task3913.query.DateQuery;
-import com.javarush.task.task39.task3913.query.EventQuery;
-import com.javarush.task.task39.task3913.query.IPQuery;
-import com.javarush.task.task39.task3913.query.UserQuery;
+import com.javarush.task.task39.task3913.query.*;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,9 +11,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery {
+public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery, QLQuery {
     private Path logDir;//директория с логами *.log
     private List<MyLog> logs = new ArrayList<>();
+    private DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
     public LogParser(Path logDir) {
         this.logDir = logDir;
@@ -39,11 +37,10 @@ public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery {
 
     private void parseString(String log) {
         String[] logParts = log.split("\t");
-        DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
         try {
             String ip = logParts[0];
             String user = logParts[1];
-            Date date = df.parse(logParts[2]);
+            Date date = dateFormat.parse(logParts[2]);
             Event event = Event.valueOf(logParts[3].split(" ")[0]);
             int taskNumber = 0;
             if (event == Event.SOLVE_TASK ||
@@ -55,6 +52,124 @@ public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery {
             e.printStackTrace();
         }
     }
+
+    //Start implementation of QLQuery
+
+    /*
+    * Запрос типа get ip for user = "Vasya" необходимо будет реализовать в будущем
+    * Этап 1:
+    * реализовать запросы типа "get ip", "get user", "get date", "get event", "get status",
+    * который возвращает список запрощенных элементов
+    * Этап 2:
+    * реализовать запросы типа "get field1 for field2 = "param"
+    * где field 1 и field2 - ip, user, date, event, status
+    * param - значение поля 2
+    * */
+
+    @Override
+    public Set<Object> execute(String query) {
+        String[] queryParts = query.toUpperCase().split(" ");
+        //задаем выход, в случае если запрос слишком короткий
+        if (queryParts.length < 2)
+            return null;
+        //задаем тип выходного списка
+        QueryType field1 = null;
+        QueryType field2 = null;
+        Date after = null;
+        Date before = null;
+
+        try {
+            field1 = QueryType.valueOf(queryParts[1]);
+            if (queryParts.length > 2)
+                field2 = QueryType.valueOf(queryParts[3]);
+            else
+                field2 = QueryType.NONE;
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+        Object param = null;
+        if (field2 != QueryType.NONE) {
+            param = null;
+            String[] splitStrings = query.split("\\\"");
+            String sourceParam = splitStrings[1];
+            try {
+                switch (field2) {
+                    case IP:
+                    case USER:
+                        param = sourceParam;
+                        break;
+                    case STATUS:
+                        param = Status.valueOf(sourceParam);
+                        break;
+                    case EVENT:
+                        param = Event.valueOf(sourceParam);
+                        break;
+                    case DATE:
+                        param = dateFormat.parse(sourceParam);
+
+                }
+            } catch (ParseException e) {
+                System.out.println("Can't parse param for your query");
+                return null;
+
+            }
+            if (splitStrings.length >= 6) {
+                try {
+                    after = dateFormat.parse(splitStrings[3]);
+                    before = dateFormat.parse(splitStrings[5]);
+                } catch (ParseException e) {
+                    System.out.println("Can't parse dates");
+                    after = null;
+                    before = null;
+                    return null;
+                }
+            }
+        }
+        //todo
+        Set<Object> set = new HashSet<>();
+        for (MyLog log : logs) {
+            Object object = null;
+            switch (field1) {
+                case IP:
+                    object = log.ip;
+                    break;
+                case USER:
+                    object = log.user;
+                    break;
+                case DATE:
+                    object = log.date;
+                    break;
+                case EVENT:
+                    object = log.event;
+                    break;
+                case STATUS:
+                    object = log.status;
+            }
+            if (object != null) {//объект подходит под field1, здесь проверка на field2 = "param"
+                if (field2 == QueryType.USER && log.user.equals(param) ||
+                        field2 == QueryType.IP && log.ip.equals(param) ||
+                        field2 == QueryType.DATE && log.date.equals(param) ||
+                        field2 == QueryType.EVENT && log.event.equals(param) ||
+                        field2 == QueryType.STATUS && log.status.equals(param) ||
+                        field2 == QueryType.NONE
+                ) {
+                    if (checkDate(after, before, log.date))
+                        set.add(object);
+                }
+            }
+        }
+        return set;
+    }
+
+    private enum QueryType {
+        IP,
+        USER,
+        DATE,
+        EVENT,
+        STATUS,
+        NONE
+    }
+
 
     //Start implementation of EventQuery
 
