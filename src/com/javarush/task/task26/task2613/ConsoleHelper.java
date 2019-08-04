@@ -11,21 +11,13 @@ import java.util.ResourceBundle;
 public class ConsoleHelper {
     private static BufferedReader bis = new BufferedReader(new InputStreamReader(System.in));
 
-    private static Locale enUsLocale = new Locale("en", "US");
 
     private static ResourceBundle res =
-            ResourceBundle.getBundle( CashMachine.class.getPackage().getName() +".resources.common_en", enUsLocale);
+            ResourceBundle.getBundle( CashMachine.class.getPackage().getName() +".resources.common_en", Locale.US);
 
-//    +the.end=Terminated. Thank you for visiting JavaRush cash machine. Good luck.
-//    +choose.operation=Please choose an operation desired or type 'EXIT' for exiting
-
-//    +operation.INFO=INFO
-//    +operation.DEPOSIT=DEPOSIT
-//    +operation.WITHDRAW=WITHDRAW
-//    +operation.EXIT=EXIT
-//    +invalid.data=Please specify valid data.
-//    +choose.currency.code=Please choose a currency code, for example USD
-//    +choose.denomination.and.count.format=Please specify integer denomination and integer count. For example '10 3' means 30 %s
+    public static void setRes(ResourceBundle res) {
+        ConsoleHelper.res = res;
+    }
 
     public static void writeMessage(String message) {
         System.out.println(message);
@@ -97,5 +89,9 @@ public class ConsoleHelper {
                 writeMessage(res.getString("invalid.data"));
             }
         }
+    }
+
+    public static void printExitMessage() {
+        writeMessage(res.getString("the.end"));
     }
 }

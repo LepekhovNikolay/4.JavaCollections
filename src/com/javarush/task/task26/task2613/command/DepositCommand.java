@@ -1,23 +1,21 @@
 package com.javarush.task.task26.task2613.command;
 
-import com.javarush.task.task26.task2613.CashMachine;
 import com.javarush.task.task26.task2613.ConsoleHelper;
 import com.javarush.task.task26.task2613.CurrencyManipulator;
 import com.javarush.task.task26.task2613.CurrencyManipulatorFactory;
+import com.javarush.task.task26.task2613.ResourceBundleFactory;
 import com.javarush.task.task26.task2613.exception.InterruptOperationException;
 
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 class DepositCommand implements Command{
 
-    private Locale enUsLocale = new Locale("en", "US");
 
-    private ResourceBundle res =
-            ResourceBundle.getBundle( CashMachine.class.getPackage().getName() +".resources.deposit_en", enUsLocale);
+    private ResourceBundle res;
 
     @Override
     public void execute() throws InterruptOperationException {
+        res = ResourceBundleFactory.getResourceBundleByKey("deposit");
         ConsoleHelper.writeMessage(res.getString("before"));
         CurrencyManipulator manipulator = CurrencyManipulatorFactory.getManipulatorByCurrencyCode(ConsoleHelper.askCurrencyCode());
 

@@ -6,7 +6,20 @@ import com.javarush.task.task26.task2613.exception.InterruptOperationException;
 import java.util.Locale;
 
 public class CashMachine {
-    public static void main(String[] args) {
+
+    public static final String RESOURCE_PATH = CashMachine.class.getPackage().getName() + ".resources.";
+
+    private static Locale cashMashineLocale = new Locale("en", "US");
+
+    public static Locale getCashMashineLocale() {
+        return cashMashineLocale;
+    }
+
+    public static void setCashMashineLocale(Locale cashMashineLocale1) {
+        cashMashineLocale = cashMashineLocale1;
+    }
+
+    public static void main(String[] args) throws InterruptOperationException{
         Locale.setDefault(Locale.ENGLISH);
         String command;
         Operation operation;
@@ -17,7 +30,8 @@ public class CashMachine {
                 CommandExecutor.execute(operation);
             } while (operation != Operation.EXIT);
         } catch (InterruptOperationException e) {
-//            ConsoleHelper.writeMessage("Good buy");
+            ConsoleHelper.printExitMessage();
+            CommandExecutor.execute(Operation.EXIT);
         }
 
     }

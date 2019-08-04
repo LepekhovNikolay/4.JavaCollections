@@ -8,7 +8,6 @@ import java.util.Map;
 
 public class CommandExecutor {
     private static final Map<Operation, Command> allKnownCommandsMap = new HashMap<>(Operation.values().length);
-
     private CommandExecutor(){
     }
 
