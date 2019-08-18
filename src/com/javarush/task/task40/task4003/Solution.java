@@ -1,6 +1,8 @@
 package com.javarush.task.task40.task4003;
 
+
 import javax.activation.DataHandler;
+import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -17,15 +19,16 @@ public class Solution {
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        solution.sendMail("name.lastname@gmail.com", "password", "friend@gmail.com");
+        solution.sendMail("myEmail@gmail.com", "myPassword", "recipientsMail");
     }
 
     public void sendMail(final String username, final String password, final String recipients) {
         Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+
 
         Session session = Session.getInstance(props,
                 new Authenticator() {
@@ -42,11 +45,13 @@ public class Solution {
             setSubject(message, "Тестовое письмо");
             setAttachment(message, "c:/text.txt");
 
+
             Transport.send(message);
             System.out.println("Письмо было отправлено.");
 
         } catch (MessagingException e) {
             System.out.println("Ошибка при отправке: " + e.toString());
+            e.printStackTrace();
         }
     }
 
@@ -55,6 +60,12 @@ public class Solution {
     }
 
     public static void setAttachment(Message message, String filename) throws MessagingException {
-        message.setText(filename);
+        MimeBodyPart messageBodyPart = new MimeBodyPart();
+        DataSource source = new FileDataSource(filename);
+        messageBodyPart.setDataHandler(new DataHandler(source));
+        messageBodyPart.setFileName(filename);
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(messageBodyPart);
+        message.setContent(multipart);
     }
 }
