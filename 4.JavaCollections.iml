@@ -23,5 +23,6 @@
     <orderEntry type="library" name="org.apache.httpcomponents.client5:httpclient5:5.0-beta5" level="project" />
     <orderEntry type="library" name="commons-codec-1.11" level="project" />
     <orderEntry type="library" name="com.sun.mail:javax.mail:1.4.7" level="project" />
+    <orderEntry type="library" name="org.java.net.substance:substance:6.0" level="project" />
   </component>
 </module>
