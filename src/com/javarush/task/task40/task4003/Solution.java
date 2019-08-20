@@ -19,14 +19,15 @@ public class Solution {
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        solution.sendMail("myEmail@gmail.com", "myPassword", "recipientsMail");
+        solution.sendMail("myEmailo@gmail.com", "myPassword", "recipients");
     }
 
     public void sendMail(final String username, final String password, final String recipients) {
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.port", "465");
         props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.ssl.enable", "true");
         props.put("mail.smtp.starttls.enable", "true");
 
 
